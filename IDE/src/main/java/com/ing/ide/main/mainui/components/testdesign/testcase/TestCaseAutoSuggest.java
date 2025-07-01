@@ -116,6 +116,11 @@ public class TestCaseAutoSuggest {
         objectList.add("File");
         objectList.add("General");
         objectList.add("Execute");
+        objectList.add("SSH");
+        objectList.add("IBAN");
+        objectList.add("JSON");
+        objectList.add("XML");
+
         return objectList;
     }
 
@@ -268,7 +273,15 @@ public class TestCaseAutoSuggest {
                 case "File":
                     return MethodInfoManager.getMethodListFor(ObjectType.FILE, ObjectType.FILE);
                 case "General":
-                    return MethodInfoManager.getMethodListFor(ObjectType.GENERAL, ObjectType.GENERAL);    
+                    return MethodInfoManager.getMethodListFor(ObjectType.GENERAL, ObjectType.GENERAL);
+                case "SSH":
+                    return MethodInfoManager.getMethodListFor(ObjectType.SSH, ObjectType.SSH);
+                case "IBAN":
+                    return MethodInfoManager.getMethodListFor(ObjectType.IBAN, ObjectType.IBAN);
+                case "JSON":
+                    return MethodInfoManager.getMethodListFor(ObjectType.JSON, ObjectType.JSON);
+                case "XML":
+                    return MethodInfoManager.getMethodListFor(ObjectType.XML, ObjectType.XML);
                 default:
                      if (isWebObject(objectName, pageName)) {
                         return MethodInfoManager.getMethodListFor(ObjectType.PLAYWRIGHT, ObjectType.WEB, ObjectType.ANY);

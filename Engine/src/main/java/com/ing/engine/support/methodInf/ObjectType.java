@@ -17,6 +17,10 @@ public enum ObjectType {
     KAFKA,
     QUEUE,
     DATA,
-    GENERAL
+    GENERAL,
+    SSH,
+    IBAN,
+    JSON,
+    XML
     
 }

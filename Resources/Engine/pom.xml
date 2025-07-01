@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>ingenious-playwright</groupId>
-    <artifactId>ingenious-engine</artifactId>
-    <version>2.2</version>
-    <properties>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ingenious-playwright</groupId>
+	<artifactId>ingenious-engine</artifactId>
+	<version>2.2</version>
+	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <playwright.version>LATEST</playwright.version>
         <commons-cli.version>1.4</commons-cli.version>
         <javamail.version>1.4.7</javamail.version>
         <json-simple.version>1.1.1</json-simple.version>
-        <jcsv.version>1.4.0</jcsv.version>
+        <jcsv.version>1.4.0</jcsv.version>         
         <javafx.version>17.0.2</javafx.version>
         <jackson.version>2.15.2</jackson.version>
         <commonscsv.version>1.10.0</commonscsv.version>
@@ -44,126 +44,121 @@
         <appium.version>LATEST</appium.version>
         <javafaker.version>LATEST</javafaker.version>
         <kafka-clients.version>LATEST</kafka-clients.version>
+        <jsch.version>0.2.23</jsch.version>
+        <zjsonpatch.version>0.4.14</zjsonpatch.version>
+        <json-unit-assertj.version>4.1.0</json-unit-assertj.version>
+        <xmlunit-legacy.version>2.10.0</xmlunit-legacy.version>
+        <iban4j.version>3.2.11-RELEASE</iban4j.version>
         <avro.version>LATEST</avro.version>
         <kafka-avro-serializer.version>LATEST</kafka-avro-serializer.version>
         <ibmmq.version>LATEST</ibmmq.version>
-        <mac.version>mac-aarch64</mac.version>
-        <setupDir>../Dist/release</setupDir>
+        <mac.version>mac-aarch64</mac.version>	
+	    <setupDir>../Dist/release</setupDir>
         <resourceDir>../Resources</resourceDir>
-
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-
     </properties>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-                    <execution>
-                        <id>install-datalib</id>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <file>${basedir}/lib/ingenious-datalib-${project.version}.jar</file>
-                            <groupId>com.ing</groupId>
-                            <artifactId>ingenious-datalib</artifactId>
-                            <version>${project.version}</version>
-                            <packaging>jar</packaging>
-                            <generatePom>true</generatePom>
-                        </configuration>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>install-testdata-csv</id>
-                        <phase>initialize</phase>
-                        <configuration>
-                            <file>${basedir}/lib/ingenious-testdata-csv-${project.version}.jar</file>
-                            <groupId>com.ing</groupId>
-                            <artifactId>ingenious-testdata-csv</artifactId>
-                            <version>${project.version}</version>
-                            <packaging>jar</packaging>
-                            <generatePom>true</generatePom>
-                        </configuration>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.4.1</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>../lib</directory>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <outputDirectory>../lib</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>../lib</outputDirectory>
-                            <overWriteReleases>true</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <repositories>
-    <!--     <repository>
-            <id>confluent</id>
-            <url>https://packages.confluent.io/maven/</url>
-        </repository>
-    -->
-    </repositories>
-    <pluginRepositories/>
-    <dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>install-datalib</id>
+						<phase>initialize</phase>
+						<configuration>
+							<file>${basedir}/lib/ingenious-datalib-${project.version}.jar</file>
+							<groupId>com.ing</groupId>
+							<artifactId>ingenious-datalib</artifactId>
+							<version>${project.version}</version>
+							<packaging>jar</packaging>
+							<generatePom>true</generatePom>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>install-testdata-csv</id>
+						<phase>initialize</phase>
+						<configuration>
+							<file>${basedir}/lib/ingenious-testdata-csv-${project.version}.jar</file>
+							<groupId>com.ing</groupId>
+							<artifactId>ingenious-testdata-csv</artifactId>
+							<version>${project.version}</version>
+							<packaging>jar</packaging>
+							<generatePom>true</generatePom>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>../lib</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>11</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<outputDirectory>../lib</outputDirectory>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>../lib</outputDirectory>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
         
         
         
@@ -384,7 +379,7 @@
             <artifactId>kafka-clients</artifactId>
             <version>${kafka-clients.version}</version>
         </dependency>
-        <!-- <dependency>
+        <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
             <version>${avro.version}</version>
@@ -393,7 +388,34 @@
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
             <version>${kafka-avro-serializer.version}</version>
-        </dependency> -->
+        </dependency>
+        <dependency>
+            <groupId>com.github.mwiede</groupId>
+            <artifactId>jsch</artifactId>
+            <version>${jsch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.flipkart.zjsonpatch</groupId>
+            <artifactId>zjsonpatch</artifactId>
+            <version>${zjsonpatch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.json-unit</groupId>
+            <artifactId>json-unit-assertj</artifactId>
+            <version>${json-unit-assertj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-legacy</artifactId>
+            <version>${xmlunit-legacy.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.iban4j</groupId>
+            <artifactId>iban4j</artifactId>
+            <version>${iban4j.version}</version>
+        </dependency>
+
+
         <!-- add your respective jms dependency here -->
         <dependency>
             <groupId>com.ibm.mq</groupId>
@@ -406,9 +428,12 @@
 			<groupId>com.ing</groupId>
 			<artifactId>ingenious-datalib</artifactId>
 			<version>${project.version}</version>
-                        <type>jar</type>
 		</dependency>
-		
+		<!--    <dependency>
+            <groupId>com.ing</groupId>
+            <artifactId>ingenious-extensionconnect</artifactId>
+            <version>${project.version}</version>
+        </dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -507,7 +532,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>
-                        <type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -523,7 +547,6 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>${httpclient.version}</version>
-                        <type>jar</type>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>

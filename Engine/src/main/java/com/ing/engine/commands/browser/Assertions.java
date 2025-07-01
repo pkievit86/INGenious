@@ -37,16 +37,42 @@ public class Assertions extends General {
         try {
             LocatorAssertions.ContainsTextOptions options = new LocatorAssertions.ContainsTextOptions();
             options.setTimeout(getTimeoutValue());
+            assertThat(Locator).containsText(Data, options);
             text = Locator.innerHTML();
             highlightElement();
-            assertThat(Locator).containsText(Data, options);
             Report.updateTestLog(Action, "Element [" + ObjectName + "] contains text '" + Data + "'", Status.PASS);
+            removeHighlightFromElement();
         } catch (PlaywrightException e) {
             PlaywrightExceptionLogging(e);
         } catch (AssertionFailedError err) {
             assertionLogging(err, "[" + ObjectName + "] does not contain text '" + Data + "'. Actual text is '" + text + "'");
-        } finally {
-            removeHighlightFromElement();
+        }
+    }
+
+    /**
+     * * Assertion for 'containsText' **
+     */
+    @Action(object = ObjectType.PLAYWRIGHT, desc = "Assert if [<Object>] contains the text [<Data>] if Data exists", input = InputType.YES)
+    public void assertElementContainsTextIfDataExists() {
+
+        if (!Data.isEmpty()) {
+
+            String text = "";
+            try {
+                LocatorAssertions.ContainsTextOptions options = new LocatorAssertions.ContainsTextOptions();
+                options.setTimeout(getTimeoutValue());
+                assertThat(Locator).containsText(Data, options);
+                text = Locator.innerHTML();
+                highlightElement();
+                Report.updateTestLog(Action, "Element [" + ObjectName + "] contains text '" + Data + "'", Status.PASS);
+                removeHighlightFromElement();
+            } catch (PlaywrightException e) {
+                PlaywrightExceptionLogging(e);
+            } catch (AssertionFailedError err) {
+                assertionLogging(err, "[" + ObjectName + "] does not contain text '" + Data + "'. Actual text is '" + text + "'");
+            }
+        } else {
+            Report.updateTestLog(Action, "Data not present, text contains assertion not required", Status.DONE);
         }
     }
 
@@ -423,16 +449,55 @@ public class Assertions extends General {
         try {
             LocatorAssertions.HasTextOptions options = new LocatorAssertions.HasTextOptions();
             options.setTimeout(getTimeoutValue());
+            assertThat(Locator).hasText(Pattern.compile(Data), options);
             text = Locator.innerHTML();
             highlightElement();
-            assertThat(Locator).hasText(Pattern.compile(Data), options);
             Report.updateTestLog(Action, "[" + ObjectName + "] has text '" + Data + "'", Status.PASS);
+            removeHighlightFromElement();
         } catch (PlaywrightException e) {
             PlaywrightExceptionLogging(e);
         } catch (AssertionFailedError err) {
             assertionLogging(err, "[" + ObjectName + "] does not have text '" + Data + "'. Actual text is '" + text + "'");
-        } finally {
-            removeHighlightFromElement();
+        }
+    }
+
+    /**
+     * * Assertion for 'Text' if Data exists **
+     */
+    @Action(object = ObjectType.PLAYWRIGHT, desc = "Assert if [<Object>] has text [<Data>] if Data exists", input = InputType.YES)
+    public void assertElementTextMatchesIfDataExists() {
+
+        if (!Data.isEmpty()) {
+
+            String text = "";
+            try {
+                LocatorAssertions.HasTextOptions options = new LocatorAssertions.HasTextOptions();
+                if (Condition.equals("removeSpaces")) {
+                    String formattedText = Locator.innerHTML().replaceAll("\\s+", "");
+
+                    if (!formattedText.equals(Data)) {
+                        Report.updateTestLog(Action, "Data mismatch. Expected: " + Data + ", but got: " + formattedText, Status.DEBUG);
+                    } else {
+                        Report.updateTestLog(Action, "Data matches: " + Data, Status.PASS);
+                    }
+
+                    text = Locator.innerHTML();
+                } else {
+                    options.setTimeout(getTimeoutValue());
+                    assertThat(Locator).hasText(Pattern.compile(Data), options);
+                    text = Locator.innerHTML();
+                    highlightElement();
+                    Report.updateTestLog(Action, "[" + ObjectName + "] has text '" + Data + "'", Status.PASS);
+                    removeHighlightFromElement();
+                }
+            } catch (PlaywrightException e) {
+                PlaywrightExceptionLogging(e);
+            } catch (AssertionFailedError err) {
+                assertionLogging(err, "[" + ObjectName + "] does not have text '" + Data + "'. Actual text is '" + text + "'");
+            }
+
+        } else {
+            Report.updateTestLog(Action, "Data not present, assertion not required", Status.DONE);
         }
     }
 
@@ -465,18 +530,45 @@ public class Assertions extends General {
         try {
             LocatorAssertions.HasValueOptions options = new LocatorAssertions.HasValueOptions();
             options.setTimeout(getTimeoutValue());
+            assertThat(Locator).hasValue(Pattern.compile(Data), options);
             value = Locator.getAttribute("value");
             highlightElement();
-            assertThat(Locator).hasValue(Pattern.compile(Data), options);
             Report.updateTestLog(Action, "[" + ObjectName + "] has value '" + Data + "'", Status.PASS);
+            removeHighlightFromElement();
         } catch (PlaywrightException e) {
             PlaywrightExceptionLogging(e);
         } catch (AssertionFailedError err) {
             assertionLogging(err, "[" + ObjectName + "] does not have value '" + Data + "'. Actual value is '" + value + "'");
-        } finally {
-            removeHighlightFromElement();
         }
     }
+
+    /**
+     * Assertion for 'Value' if Data Exists
+     */
+    @Action(object = ObjectType.PLAYWRIGHT, desc = "Assert if [<Object>] has value [<Data>] if Data exists", input = InputType.YES)
+    public void assertElementValueMatchesIfDataExists() {
+
+        if (!Data.isEmpty()) {
+
+            String value = "";
+            try {
+                LocatorAssertions.HasValueOptions options = new LocatorAssertions.HasValueOptions();
+                options.setTimeout(getTimeoutValue());
+                assertThat(Locator).hasValue(Pattern.compile(Data), options);
+                value = Locator.getAttribute("value");
+                highlightElement();
+                Report.updateTestLog(Action, "[" + ObjectName + "] has value '" + Data + "'", Status.PASS);
+                removeHighlightFromElement();
+            } catch (PlaywrightException e) {
+                PlaywrightExceptionLogging(e);
+            } catch (AssertionFailedError err) {
+                assertionLogging(err, "[" + ObjectName + "] does not have value '" + Data + "'. Actual value is '" + value + "'");
+            }
+        } else {
+            Report.updateTestLog(Action, "Data not present, value assertion not required", Status.DONE);
+        }
+    }
+
 
     @Action(object = ObjectType.PLAYWRIGHT, desc = "Assert if [<Object>] does not value [<Data>]", input = InputType.YES)
     public void assertElementValueNotMatches() {
@@ -828,15 +920,43 @@ public class Assertions extends General {
         try {
             LocatorAssertions.IsVisibleOptions options = new LocatorAssertions.IsVisibleOptions();
             options.setTimeout(getTimeoutValue());
-            highlightElement();
             assertThat(Locator).isVisible(options);
+            highlightElement();
             Report.updateTestLog(Action, "[" + ObjectName + "] is visible", Status.PASS);
+            removeHighlightFromElement();
         } catch (PlaywrightException e) {
             PlaywrightExceptionLogging(e);
         } catch (AssertionFailedError err) {
             assertionLogging(err, "[" + ObjectName + "] is not visible");
-        } finally {
-            removeHighlightFromElement();
+        }
+    }
+
+    @Action(object = ObjectType.PLAYWRIGHT, desc = "Assert if [<Object>] is visible and store Boolean")
+    public void assertElementIsVisibleAndReturnBoolean() {
+        try {
+            LocatorAssertions.IsVisibleOptions options = new LocatorAssertions.IsVisibleOptions();
+            options.setTimeout(5000);
+            boolean visible = false;
+            try {
+                assertThat(Locator).isVisible(options);
+                highlightElement();
+                Report.updateTestLog(Action, "[" + ObjectName + "] is visible", Status.PASS);
+                visible = true;
+                removeHighlightFromElement();
+            } catch (Exception e) {
+                Report.updateTestLog(Action, "[" + ObjectName + "] is not visible", Status.PASS);
+                visible = false;
+            }
+
+            if (Condition.startsWith("%") && Condition.endsWith("%")) {
+                addVar(Condition, String.valueOf(visible));
+                Report.updateTestLog(Action, "Value '" + visible + "' is stored in Variable '" + Condition + "'", Status.DONE);
+            } else {
+                Report.updateTestLog(Action, "Variable format is not correct", Status.DEBUG);
+            }
+
+        } catch (AssertionFailedError err) {
+            assertionLogging(err, "[" + ObjectName + "] is not visible");
         }
     }
 

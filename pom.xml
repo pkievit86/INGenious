@@ -58,21 +58,24 @@
         <appium.version>LATEST</appium.version>
         <javafaker.version>LATEST</javafaker.version>
         <kafka-clients.version>LATEST</kafka-clients.version>
+        <jsch.version>0.2.23</jsch.version>
+        <zjsonpatch.version>0.4.14</zjsonpatch.version>
+        <json-unit-assertj.version>4.1.0</json-unit-assertj.version>
+        <xmlunit-legacy.version>2.10.0</xmlunit-legacy.version>
+        <iban4j.version>3.2.11-RELEASE</iban4j.version>
         <avro.version>LATEST</avro.version>
         <kafka-avro-serializer.version>LATEST</kafka-avro-serializer.version>
         <ibmmq.version>LATEST</ibmmq.version>
-        <mac.version>mac-aarch64</mac.version>
-        <setupDir>../Dist/release</setupDir>
+        <mac.version>mac-aarch64</mac.version>	
+	    <setupDir>../Dist/release</setupDir>
         <resourceDir>../Resources</resourceDir>
-
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-
     </properties>
     <name>ingenious</name>
     <build>
-        <plugins>
+        <plugins>    
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.0.0</version>
